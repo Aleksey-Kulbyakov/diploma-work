@@ -1,0 +1,23 @@
+# Python essentials
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+.venv/
+
+# ML stuff (Don't commit heavy models or data!)
+*.pt
+*.pth
+*.bin
+*.safetensors
+wandb/
+
+# Project specific
+GRPO-Reasoning-Analysis/
+checkpoints/
+output/
+
+# IDE
+.vscode/
+.idea/

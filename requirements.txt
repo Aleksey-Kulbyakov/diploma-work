@@ -1,0 +1,11 @@
+torch
+transformers
+peft
+bitsandbytes
+datasets
+trl
+accelerate
+wandb
+psutil
+python-dotenv
+scikit-learn
