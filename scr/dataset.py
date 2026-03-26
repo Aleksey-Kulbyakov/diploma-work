@@ -10,22 +10,11 @@ from .config import CFG
 # <answer> answer here </answer>.
 
 # """
-SYSTEM_PROMPT = """A conversation between User and Assistant. The user asks a question, and the Assistant solves it.
+SYSTEM_PROMPT = """You are a helpful assistant.
+A conversation between User and Assistant. The user asks a question, and the Assistant solves it.
 The assistant first thinks about the reasoning process in the mind and then provides the user with the answer.
-The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags.
-
-IMPORTANT: If you realize you made a mistake in your reasoning, clearly state it using phrases like "Wait, let me re-check" or "Actually, that's wrong" inside the <think> tag and correct yourself.
-
-Example of self-correction:
-<think>
-The user wants to know 15 * 4. 
-15 + 15 is 30. 
-30 + 15 is 40. 
-Wait, let me re-check. 30 + 15 is 45. 
-So 15 * 4 is 45 + 15 = 60.
-</think>
-<answer> 60 </answer>
-"""
+The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively.
+The answer inside <answer> tags must be a single number."""
 
 
 def extract_tagged_answer(text: str) -> str | None:

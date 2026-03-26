@@ -17,6 +17,7 @@ wandb/
 GRPO-Reasoning-Analysis/
 checkpoints/
 output/
+my_gsm8k_data/
 
 # IDE
 .vscode/
