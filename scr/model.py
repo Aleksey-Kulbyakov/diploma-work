@@ -1,27 +1,29 @@
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import LoraConfig
 from .config import CFG
 
+
 def build_model_and_tokenizer():
-    bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_quant_type="nf4",
-    )
+    torch.backends.cuda.matmul.allow_tf32 = True
+
+    print(f'\n ********** Building {CFG.MODEL_NAME} ********** \n')
 
     model = AutoModelForCausalLM.from_pretrained(
         CFG.MODEL_NAME,
-        quantization_config=bnb_config,
-        device_map={"": 0},
+        torch_dtype=torch.float32,
+        device_map=None,
         trust_remote_code=True,
     )
 
-    tokenizer = AutoTokenizer.from_pretrained(CFG.MODEL_NAME)
-    tokenizer.pad_token = tokenizer.eos_token
-    tokenizer.padding_side = 'right'
+    model.enable_input_require_grads()
+    model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+    model.config.use_cache = False
 
-    model = prepare_model_for_kbit_training(model)
+    tokenizer = AutoTokenizer.from_pretrained(CFG.MODEL_NAME, trust_remote_code=True)
+    tokenizer.padding_side = 'right'
+    tokenizer.pad_token = tokenizer.eos_token
+
     peft_config = LoraConfig(
         r=CFG.LORA_R,
         lora_alpha=CFG.LORA_ALPHA,
@@ -30,7 +32,5 @@ def build_model_and_tokenizer():
         bias="none",
         task_type="CAUSAL_LM",
     )
-    model = get_peft_model(model, peft_config)
-    model.config.use_cache = False
 
-    return model, tokenizer
+    return model, tokenizer, peft_config
