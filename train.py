@@ -43,7 +43,7 @@ def main():
         output_dir=CFG.SAVE_FINETUNED_MODEL_PATH,
         run_name=CFG.RUN_NAME,
         bf16=False,
-        fp16=True,  # Важно для V100
+        fp16=True,
         per_device_train_batch_size=CFG.BATCH_SIZE,
         gradient_accumulation_steps=CFG.GRAD_ACC,
         beta=CFG.KL_BETA,
