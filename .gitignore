@@ -1,0 +1,24 @@
+# Python essentials
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+.venv/
+
+# ML stuff (Don't commit heavy models or data!)
+*.pt
+*.pth
+*.bin
+*.safetensors
+wandb/
+
+# Project specific
+GRPO-Reasoning-Analysis/
+checkpoints/
+output/
+my_gsm8k_data/
+
+# IDE
+.vscode/
+.idea/
